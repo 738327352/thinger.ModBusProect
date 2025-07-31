@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.ModBusProect", "thinger.ModBusProect\thinger.ModBusProect.csproj", "{8C1A488F-ABD9-4A42-BE73-0D23017C3DE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.ModBusRTULib", "thinger.ModBusRTULib\thinger.ModBusRTULib.csproj", "{882F92DC-782D-4491-B719-5A7C474AB254}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rockweed", "Rockweed\Rockweed.csproj", "{1FC513C1-CF71-479D-A22D-DC410118DAF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{882F92DC-782D-4491-B719-5A7C474AB254}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{882F92DC-782D-4491-B719-5A7C474AB254}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{882F92DC-782D-4491-B719-5A7C474AB254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
