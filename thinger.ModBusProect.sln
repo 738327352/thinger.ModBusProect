@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.ModBusProect", "thinger.ModBusProect\thinger.ModBusProect.csproj", "{8C1A488F-ABD9-4A42-BE73-0D23017C3DE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.ModBusRTULib", "thinger.ModBusRTULib\thinger.ModBusRTULib.csproj", "{882F92DC-782D-4491-B719-5A7C474AB254}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C1A488F-ABD9-4A42-BE73-0D23017C3DE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C1A488F-ABD9-4A42-BE73-0D23017C3DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C1A488F-ABD9-4A42-BE73-0D23017C3DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C1A488F-ABD9-4A42-BE73-0D23017C3DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{882F92DC-782D-4491-B719-5A7C474AB254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882F92DC-782D-4491-B719-5A7C474AB254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882F92DC-782D-4491-B719-5A7C474AB254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882F92DC-782D-4491-B719-5A7C474AB254}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6B6366D-8FCE-4364-8358-79134B415982}
+	EndGlobalSection
+EndGlobal
