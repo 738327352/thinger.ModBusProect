@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.ModBusRTULib", "thi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rockweed", "Rockweed\Rockweed.csproj", "{1FC513C1-CF71-479D-A22D-DC410118DAF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "excelOperation", "excelOperation\excelOperation.csproj", "{DCBE4C26-9154-489D-A42A-2C522BE41124}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FC513C1-CF71-479D-A22D-DC410118DAF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCBE4C26-9154-489D-A42A-2C522BE41124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCBE4C26-9154-489D-A42A-2C522BE41124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCBE4C26-9154-489D-A42A-2C522BE41124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCBE4C26-9154-489D-A42A-2C522BE41124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
