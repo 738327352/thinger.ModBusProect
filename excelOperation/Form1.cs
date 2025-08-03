@@ -15,6 +15,9 @@ namespace excelOperation
     {
         private DataGridView dataGridView1;
         private Button btnOpenExcel;
+        private DateTimePicker datePicker;
+        private TextBox textBox;
+        private Panel topPanel;
 
         public Form1()
         {
@@ -24,19 +27,79 @@ namespace excelOperation
 
         private void InitializeCustomComponents()
         {
-            // 初始化 DataGridView
-            dataGridView1 = new DataGridView();
-            dataGridView1.Dock = DockStyle.Fill;
+            // 创建顶部面板用于容纳控件
+            topPanel = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 100
+            };
+
+            // 初始化日期选择器
+            datePicker = new TimePicker
+            {
+                Location = new Point(10, 10),
+                Size = new Size(200, 25),
+                Format = DateTimePickerFormat.Time,
+                ShowUpDown = true
+            };
+
+            // 初始化文本框
+            textBox = new TextBox
+            {
+                Location = new Point(10, 40),
+                Size = new Size(200, 25),
+                ForeColor = SystemColors.GrayText,
+                Text = "请输入..."
+            };
+
+            // 添加事件处理
+            textBox.Enter += (s, e) =>
+            {
+                if (textBox.Text == "请输入...")
+                {
+                    textBox.Text = "";
+                    textBox.ForeColor = SystemColors.WindowText;
+                }
+            };
+
+            textBox.Leave += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    textBox.Text = "请输入...";
+                    textBox.ForeColor = SystemColors.GrayText;
+                }
+            };
 
             // 初始化打开按钮
-            btnOpenExcel = new Button();
-            btnOpenExcel.Text = "打开Excel文件";
-            btnOpenExcel.Dock = DockStyle.Top;
+            btnOpenExcel = new Button
+            {
+                Text = "打开Excel文件",
+                Location = new Point(10, 70),
+                Size = new Size(200, 25)
+            };
             btnOpenExcel.Click += BtnOpenExcel_Click;
 
-            // 添加控件到窗体
+            // 初始化 DataGridView
+            dataGridView1 = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                ReadOnly = true
+            };
+
+            // 将控件添加到顶部面板
+            topPanel.Controls.Add(datePicker);
+            topPanel.Controls.Add(textBox);
+            topPanel.Controls.Add(btnOpenExcel);
+
+            // 将面板和DataGridView添加到窗体
             this.Controls.Add(dataGridView1);
-            this.Controls.Add(btnOpenExcel);
+            this.Controls.Add(topPanel);
+
+            // 设置窗体的最小尺寸
+            this.MinimumSize = new Size(400, 300);
         }
 
         private void BtnOpenExcel_Click(object sender, EventArgs e)
