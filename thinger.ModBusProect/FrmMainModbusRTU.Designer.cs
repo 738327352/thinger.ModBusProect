@@ -1,6 +1,6 @@
 ﻿namespace thinger.ModBusProect
 {
-    partial class ForMainModbusRTU
+    partial class FrmMainModbusRTU
     {
         /// <summary>
         /// 必需的设计器变量。

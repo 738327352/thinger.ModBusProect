@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace thinger.ModBusProect
 {
-    public partial class ForMainModbusRTU : Form
+    public partial class FrmMainModbusRTU : Form
     {
-        public ForMainModbusRTU()
+        public FrmMainModbusRTU()
         {
             InitializeComponent();
         }

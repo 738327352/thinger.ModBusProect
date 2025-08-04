@@ -46,16 +46,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ForMainModbusRTU.cs">
+    <Compile Include="FrmMainModbusRTU.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ForMainModbusRTU.Designer.cs">
-      <DependentUpon>ForMainModbusRTU.cs</DependentUpon>
+    <Compile Include="FrmMainModbusRTU.Designer.cs">
+      <DependentUpon>FrmMainModbusRTU.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ForMainModbusRTU.resx">
-      <DependentUpon>ForMainModbusRTU.cs</DependentUpon>
+    <EmbeddedResource Include="FrmMainModbusRTU.resx">
+      <DependentUpon>FrmMainModbusRTU.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
