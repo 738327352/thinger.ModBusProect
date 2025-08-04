@@ -207,7 +207,7 @@ namespace thinger.ModBusRTULib
                     {
                         byte[] result = new byte[byteLength];
 
-                        Array.Copy(result, 3, result, 0, byteLength);
+                        Array.Copy(receive, 3, result, 0, byteLength);
 
                     return result;
                     
@@ -223,8 +223,54 @@ namespace thinger.ModBusRTULib
 
         }
 
+        /*
+        public byte[] ReadOutRegisters(byte slaved, ushort startAddress, ushort length, List<byte> sendCommand)
+        {
+
+            List<byte> SendCommand = new List<byte>();
+
+            SendCommand.Add(slaved);
+            SendCommand.Add(0x03);
+
+            SendCommand.Add((byte)(startAddress / 256));
+            SendCommand.Add((byte)(startAddress % 256));
+
+            SendCommand.Add((byte)(length / 256));
+            SendCommand.Add((byte)(length % 256));
 
 
+            SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));
+
+            byte[] receive = null;
+
+            int byteLength = length * 2;
+
+            if (SendAndReceive(SendCommand.ToArray(), ref receive))
+            {
+
+                if (receive.Length == 5 + byteLength)
+                {
+
+                    if (receive[0] == 0x01 && receive[1] == 0x03 && receive[2] == byteLength)
+                    {
+                        byte[] result = new byte[byteLength];
+
+                        Array.Copy(receive, 3, result, 0, byteLength);
+
+                        return result;
+
+                    }
+
+                }
+            }
+            return null;
+
+
+
+
+
+        }
+        */
 
         #endregion
 
@@ -308,20 +354,28 @@ namespace thinger.ModBusRTULib
         #endregion
 
         #region 预置多线圈
+        //
         public bool PreSetMultiColls(byte slaved, ushort start, bool[] value) {
 
 
             List<byte> SendCommand = new List<byte>();
 
+            byte[] byteArray = GetByteArrayFromBoolArray(value);
+
             SendCommand.Add(slaved);
-            SendCommand.Add(0x0f);
+            SendCommand.Add(0x0F);
+
+            SendCommand.Add((byte)(start/256));
+
+            SendCommand.Add((byte)(start %256));
 
             SendCommand.Add((byte)(value.Length / 256));
             SendCommand.Add((byte)(value.Length % 256));
 
-            SendCommand.Add(value ? (byte)0XFF : (byte)0X00);
+            SendCommand.Add((byte)byteArray.Length);
 
-            SendCommand.Add(0X00);
+            SendCommand.AddRange(byteArray);
+
             SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));
             byte[] receive = null;
 
@@ -331,7 +385,7 @@ namespace thinger.ModBusRTULib
 
                 if (receive.Length == 8)
                 {
-
+                    return ByteArrayEquals(SendCommand.ToArray(), receive);
 
 
                 }
@@ -342,6 +396,53 @@ namespace thinger.ModBusRTULib
 
         }
 
+
+        //10Hyu预置多线圈
+
+        public bool PreSetMultiRegisters(byte slaveId, ushort start, byte[] value) {
+
+            if (value == null || value.Length == 0) { return false; }
+
+            List<byte> SendCommand = new List<byte>();
+            int RegisterLength = value.Length / 2;
+
+            //拼接报文
+            SendCommand.Add(slaveId); //站地址
+            SendCommand.Add(0X10);//功能码
+
+            SendCommand.Add(((byte)(start/256)));//起始寄存器地址（高位）
+            SendCommand.Add(((byte)(start % 256)));//起始寄存器地址（低位）
+
+            SendCommand.Add(((byte)(RegisterLength / 256)));//（寄存器数量高位）
+            SendCommand.Add(((byte)(RegisterLength % 256)));//（寄存器数量低位）
+
+            SendCommand.Add((byte)value.Length);
+
+            SendCommand.AddRange(value);
+
+
+            SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));  //添加CRC校验码
+
+            byte[] receive = null;
+            //发送报文与接收报文
+            if (SendAndReceive(SendCommand.ToArray(), ref receive)) {
+
+                if (receive.Length != 0 || receive != null) { 
+                
+               
+                
+                
+                
+                
+                }
+
+
+                
+            }
+
+
+
+        }
 
         #endregion
 

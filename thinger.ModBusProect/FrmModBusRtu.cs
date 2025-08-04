@@ -10,11 +10,22 @@ using System.Windows.Forms;
 
 namespace thinger.ModBusProect
 {
-    public partial class ForMain : Form
+    public partial class FrmModBusRtu : Form
     {
-        public ForMain()
+        public FrmModBusRtu()
         {
+
             InitializeComponent();
+
+
         }
+
+
+        private void InitializeComponent()  { 
+        
+        
+        
+        }
+
     }
 }

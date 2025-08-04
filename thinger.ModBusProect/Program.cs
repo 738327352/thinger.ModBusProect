@@ -16,7 +16,7 @@ namespace thinger.ModBusProect
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ForMain());
+            Application.Run(new ForMainModbusRTU());
         }
     }
 }
