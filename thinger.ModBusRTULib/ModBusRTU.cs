@@ -83,7 +83,7 @@ namespace thinger.ModBusRTULib
 
         #region 01h读取输出线圈的方法
         //读取输出线圈的方法
-        public byte[] ReadOutPutColls(byte slaved,ushort startAddress,ushort length, List<byte> sendCommand) {
+        public byte[] ReadOutPutColls(byte slaved,ushort startAddress,ushort length) {
 
             //拼接报文
 
@@ -113,13 +113,14 @@ namespace thinger.ModBusRTULib
             int byteLength = length % 8 == 0 ? length / 8 : length/8 + 1;
             if (SendAndReceive(SendCommand.ToArray(), ref receive))
             {
+                if (receive.Length == byteLength + 5) { 
                 byte[] result = new byte[byteLength];
 
                 Array.Copy(receive, 3, result, 0, byteLength);
 
                 return result;
-             
-            
+                }
+
             }
 
             return null;
@@ -131,8 +132,6 @@ namespace thinger.ModBusRTULib
 
         #endregion 01h读取输出线圈的方法
         #region 01读取输入线圈的方法
-
-
         public byte[] ReadIntPut(byte slaved,ushort startAddress,ushort length,List<byte>sendCommand ) {
 
             List<byte> SendCommand = new List<byte>();
@@ -153,8 +152,17 @@ namespace thinger.ModBusRTULib
 
             try
             {
+               int byteLength = length%8==0?length/8:length/8 + 1; 
 
-                SendAndReceive(SendCommand.ToArray(), ref receive);
+                if (SendAndReceive(SendCommand.ToArray(), ref receive)) {
+
+                    if (receive.Length == byteLength) {
+                        if (receive[0] ==0) ;//未写完
+                    
+                    }
+                
+                }
+              
 
                 return receive;
             }
@@ -427,20 +435,20 @@ namespace thinger.ModBusRTULib
             //发送报文与接收报文
             if (SendAndReceive(SendCommand.ToArray(), ref receive)) {
 
-                if (receive.Length != 0 || receive != null) { 
-                
-               
-                
-                
-                
-                
+                if (receive.Length != 0 || receive != null) {
+
+
+
+                    return ByteArrayEquals(SendCommand.ToArray(), receive);
+
+
                 }
 
 
                 
             }
 
-
+            return false;
 
         }
 
@@ -461,47 +469,43 @@ namespace thinger.ModBusRTULib
 
         #region 布尔数组转换为字节数组
 
-        private byte[] GetByteArrayFromBoolArray(bool[] value) {
+        private byte[] GetByteArrayFromBoolArray(bool[] value)
+        {
 
 
-            int byteLength = value.Length % 8 == 0 ? value.Length / 8:value.Length & 8 + 1;
+            int byteLength = value.Length % 8 == 0 ? value.Length / 8 : value.Length & 8 + 1;
 
             byte[] result = new byte[byteLength];
 
-            for (int i = 0; i < result.Length; i++) {
+            for (int i = 0; i < result.Length; i++)
+            {
                 //保证bool不会越界
                 int total = value.Length < 8 * (i + 1) ? value.Length - 8 * i : 8;
-
+                int startIndex = i * 8;
                 for (int j = 0; j < total; j++)
                 {
+                    // 如果值为 true，设置对应的位（低位在前）
+                    if (value[startIndex + j])
+                    {
+                        result[i] |= (byte)(1 << j);
+                    }
 
                 }
 
             }
-
+            return result;
         }
-
         private byte SetBitValue(byte src,int bit,bool value) {
 
             return value ? (byte)(src | (byte)Math.Pow(2, bit) ): (byte)(src & ~(byte)Math.Pow(2, bit));
 
         
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        #endregion
-
-
+        }         
+                
+               
+              
+               
+                #endregion
 
 
         #region sendAndReceiveway

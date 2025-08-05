@@ -46,6 +46,7 @@
             this.cmb_port = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cmb_Length = new System.Windows.Forms.TextBox();
             this.btn_Written = new System.Windows.Forms.Button();
             this.btn_Read = new System.Windows.Forms.Button();
             this.comboBox10 = new System.Windows.Forms.ComboBox();
@@ -54,15 +55,16 @@
             this.cmb_DataType = new System.Windows.Forms.ComboBox();
             this.cmb_StoreArea = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.cmb_Start = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.cmb_Slave = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.lst_info = new System.Windows.Forms.ListView();
             this.label13 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.DateTimeView = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -223,7 +225,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.cmb_Length);
             this.groupBox2.Controls.Add(this.btn_Written);
             this.groupBox2.Controls.Add(this.btn_Read);
             this.groupBox2.Controls.Add(this.comboBox10);
@@ -232,7 +234,7 @@
             this.groupBox2.Controls.Add(this.cmb_DataType);
             this.groupBox2.Controls.Add(this.cmb_StoreArea);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.comboBox9);
+            this.groupBox2.Controls.Add(this.cmb_Start);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label11);
             this.groupBox2.Controls.Add(this.cmb_Slave);
@@ -243,6 +245,15 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "读写测试";
+            // 
+            // cmb_Length
+            // 
+            this.cmb_Length.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cmb_Length.Location = new System.Drawing.Point(287, 77);
+            this.cmb_Length.Name = "cmb_Length";
+            this.cmb_Length.Size = new System.Drawing.Size(145, 21);
+            this.cmb_Length.TabIndex = 16;
+            this.cmb_Length.Text = "10";
             // 
             // btn_Written
             // 
@@ -261,6 +272,7 @@
             this.btn_Read.TabIndex = 14;
             this.btn_Read.Text = "读取";
             this.btn_Read.UseVisualStyleBackColor = true;
+            this.btn_Read.Click += new System.EventHandler(this.btn_Read_Click);
             // 
             // comboBox10
             // 
@@ -270,6 +282,7 @@
             this.comboBox10.Name = "comboBox10";
             this.comboBox10.Size = new System.Drawing.Size(444, 24);
             this.comboBox10.TabIndex = 12;
+            this.comboBox10.Text = "1 1 1 1 1";
             // 
             // label10
             // 
@@ -317,13 +330,14 @@
             this.label8.TabIndex = 9;
             this.label8.Text = "数据类型：";
             // 
-            // comboBox9
+            // cmb_Start
             // 
-            this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(93, 75);
-            this.comboBox9.Name = "comboBox9";
-            this.comboBox9.Size = new System.Drawing.Size(105, 20);
-            this.comboBox9.TabIndex = 7;
+            this.cmb_Start.FormattingEnabled = true;
+            this.cmb_Start.Location = new System.Drawing.Point(93, 75);
+            this.cmb_Start.Name = "cmb_Start";
+            this.cmb_Start.Size = new System.Drawing.Size(105, 20);
+            this.cmb_Start.TabIndex = 7;
+            this.cmb_Start.Text = "0";
             // 
             // label9
             // 
@@ -352,6 +366,7 @@
             this.cmb_Slave.Name = "cmb_Slave";
             this.cmb_Slave.Size = new System.Drawing.Size(105, 20);
             this.cmb_Slave.TabIndex = 1;
+            this.cmb_Slave.Text = "1";
             // 
             // label12
             // 
@@ -365,12 +380,18 @@
             // 
             // lst_info
             // 
+            this.lst_info.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.DateTimeView,
+            this.Message});
             this.lst_info.HideSelection = false;
-            this.lst_info.Location = new System.Drawing.Point(22, 410);
+            this.lst_info.Location = new System.Drawing.Point(23, 410);
+            this.lst_info.MultiSelect = false;
             this.lst_info.Name = "lst_info";
             this.lst_info.Size = new System.Drawing.Size(695, 178);
+            this.lst_info.SmallImageList = this.imageList1;
             this.lst_info.TabIndex = 2;
             this.lst_info.UseCompatibleStateImageBehavior = false;
+            this.lst_info.View = System.Windows.Forms.View.Details;
             // 
             // label13
             // 
@@ -381,14 +402,6 @@
             this.label13.TabIndex = 3;
             this.label13.Text = "读取信息";
             // 
-            // textBox1
-            // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(287, 77);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(145, 21);
-            this.textBox1.TabIndex = 16;
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -396,6 +409,14 @@
             this.imageList1.Images.SetKeyName(0, "waring1.png");
             this.imageList1.Images.SetKeyName(1, "warning2.png");
             this.imageList1.Images.SetKeyName(2, "warning3.png");
+            // 
+            // DateTimeView
+            // 
+            this.DateTimeView.Text = "日期时间";
+            // 
+            // Message
+            // 
+            this.Message.Text = "信息内容";
             // 
             // FrmMainModbusRTU
             // 
@@ -437,7 +458,7 @@
         private System.Windows.Forms.ComboBox cmb_DataType;
         private System.Windows.Forms.ComboBox cmb_StoreArea;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.ComboBox cmb_Start;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cmb_Slave;
@@ -450,8 +471,10 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListView lst_info;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox cmb_Length;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ColumnHeader DateTimeView;
+        private System.Windows.Forms.ColumnHeader Message;
     }
 }
 

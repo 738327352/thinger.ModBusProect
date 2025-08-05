@@ -5,10 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using thinger.DataConvertLib;
+using thinger.ModBusRTULib;
 
 namespace thinger.ModBusProect
 {
@@ -22,7 +24,10 @@ namespace thinger.ModBusProect
         }
 
         private bool iSconnect = false;
+
         private ModBusRTULib.ModBusRTU modBusRTU = new ModBusRTULib.ModBusRTU();
+        private DataFormat dataFormat = DataFormat.ABCD;
+        
 
         public void InitParm()
         {
@@ -85,18 +90,6 @@ namespace thinger.ModBusProect
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -130,11 +123,12 @@ namespace thinger.ModBusProect
 
         }
 
-        public void AddLog(int level, String info)
+        public void AddLog(int level, string info)
         {
-
-            ListViewItem lst = new ListViewItem(DateTime.Now.ToString("F"), level);
-
+            
+            ListViewItem lst = new ListViewItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss "), level);
+            
+           
             lst.SubItems.Add(info);
 
             //让最新的数据在最上面
@@ -150,6 +144,96 @@ namespace thinger.ModBusProect
             AddLog(0, "ModBus已断开连接");
 
 
+        }
+        
+        //读取端口信号
+        private void btn_Read_Click(object sender, EventArgs e)
+        {
+            if (CommonVerity()) {
+
+                byte slaveId = byte.Parse(this.cmb_Slave.Text.Trim());
+                ushort start = ushort.Parse(this.cmb_Slave.Text.Trim());
+                ushort length = ushort.Parse(this.cmb_Slave.Text.Trim());
+
+                DataType dataType = (DataType)Enum.Parse(typeof(DataType), this.cmb_DataType.Text,true);
+                StoreArea storeArea = (StoreArea)Enum.Parse(typeof(StoreArea), this.cmb_StoreArea.Text, true);
+                DataFormat dataFormat = (DataFormat)Enum.Parse(typeof(DataFormat),this.cmb_DataForMat.Text,true);
+
+
+
+                switch (dataType)
+                {
+                    case DataType.Bool:
+                        break;
+                    case DataType.Byte:
+                        break;
+                    case DataType.Short:
+                        break;
+                    case DataType.UShort:
+                        break;
+                    case DataType.Int:
+                        break;
+                    case DataType.UInt:
+                        break;
+                    case DataType.Float:
+                        break;
+                    case DataType.Double:                       
+                    case DataType.Long:              
+                    case DataType.ULong:                      
+                    case DataType.String:                     
+                    case DataType.ByteArray:                  
+                    case DataType.HexString:
+                        AddLog(0, "暂不支持该数据类型");
+                        return;
+                }
+
+            }   
+        }
+
+        //通用方法验证格式是否正确
+        private bool CommonVerity() {
+
+            if (iSconnect == false) {
+                AddLog(0, "请检查连接是否正常");
+                return false;
+            }
+            if (byte.TryParse(this.cmb_Slave.Text.Trim(),out _) == false) {
+                AddLog(0, "请检查站地址是否正常");
+                return false;
+            }
+            if (byte.TryParse(this.cmb_DataBits.Text.Trim(), out _)==false) {
+                AddLog(0, "请检查数据位是否正常"); 
+                return false;
+            }
+            if (ushort.TryParse(this.cmb_Start.Text.Trim(), out _) == false) { 
+               AddLog(0,"请检查起始地址是否正常") ; 
+                return false;
+            }
+            if (ushort.TryParse(this.cmb_Length.Text.Trim(), out _) == false)
+            {
+                AddLog(0, "请检查起始地址是否正常");
+                return false;
+            }
+          return true;
+        }
+        private void ReadBool(StoreArea storeArea ,byte devId,ushort start ,ushort length) {
+
+
+            byte[] result = null;
+            switch (StoreArea)
+            {
+                case StoreArea.输出线圈0x:
+                    result = modBusRTU.ReadOutPutColls(devId, start, length);
+                    break;
+                case StoreArea.输入线圈1x:
+                    break;
+                case StoreArea.输出寄存器3x:
+                    break;
+                case StoreArea.输入寄存器4x:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
