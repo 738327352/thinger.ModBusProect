@@ -31,9 +31,9 @@ namespace thinger.ModBusRTULib
         public bool RtsEnable {
             get { return rtsEnable; }
             set {
-            rtsEnable= value;
-            this.serialPort.RtsEnable = value;
-            
+                rtsEnable = value;
+                this.serialPort.RtsEnable = value;
+
             } }
 
         public bool DtrEnable {
@@ -41,7 +41,7 @@ namespace thinger.ModBusRTULib
             set {
                 dtrEnable = value;
                 serialPort.RtsEnable = value;
-                    
+
             }
         }
 
@@ -78,12 +78,18 @@ namespace thinger.ModBusRTULib
             {
                 serialPort.Close();
             }
-            
+
         }
 
-        #region 01h读取输出线圈的方法
-        //读取输出线圈的方法
-        public byte[] ReadOutPutColls(byte slaved,ushort startAddress,ushort length) {
+        #region 01读取输出线圈的方法
+        /// <summary>
+        /// 读取输出线圈的方法
+        /// </summary>
+        /// <param name="slaved">站地址</param>
+        /// <param name="startAddress">起始地址</param>
+        /// <param name="length">长度</param>
+        /// <returns></returns>      
+        public byte[] ReadOutPutColls(byte slaved, ushort startAddress, ushort length) {
 
             //拼接报文
 
@@ -94,7 +100,7 @@ namespace thinger.ModBusRTULib
             //功能码
             SendCommand.Add(0x01);
             //起始地
-            SendCommand.Add((byte)(startAddress/256));
+            SendCommand.Add((byte)(startAddress / 256));
             SendCommand.Add((byte)(startAddress % 256));
             //线圈数量
             SendCommand.Add((byte)(length / 256));
@@ -110,15 +116,15 @@ namespace thinger.ModBusRTULib
             //发送报文
             byte[] receive = null;
 
-            int byteLength = length % 8 == 0 ? length / 8 : length/8 + 1;
+            int byteLength = length % 8 == 0 ? length / 8 : length / 8 + 1;
             if (SendAndReceive(SendCommand.ToArray(), ref receive))
             {
-                if (receive.Length == byteLength + 5) { 
-                byte[] result = new byte[byteLength];
+                if (receive.Length == byteLength + 5) {
+                    byte[] result = new byte[byteLength];
 
-                Array.Copy(receive, 3, result, 0, byteLength);
+                    Array.Copy(receive, 3, result, 0, byteLength);
 
-                return result;
+                    return result;
                 }
 
             }
@@ -132,39 +138,53 @@ namespace thinger.ModBusRTULib
 
         #endregion 01h读取输出线圈的方法
         #region 01读取输入线圈的方法
-        public byte[] ReadIntPut(byte slaved,ushort startAddress,ushort length,List<byte>sendCommand ) {
+        /// <summary>
+        /// 读取输入线圈的方法
+        /// </summary>
+        /// <param name="slaved">站地址</param>
+        /// <param name="startAddress">起始地址</param>
+        /// <param name="length">场地</param>
+        /// <param name="sendCommand"></param>
+        /// <returns></returns>
+        public byte[] ReadIntPut(byte slaved, ushort startAddress, ushort length, List<byte> sendCommand) {
 
             List<byte> SendCommand = new List<byte>();
 
             sendCommand.Add(slaved);  //从站地址
             sendCommand.Add(0x02);    //功能码
-           
+
             sendCommand.Add((byte)(startAddress / 256));//起始地
             sendCommand.Add((byte)(startAddress % 256));
 
             sendCommand.Add((byte)(length / 256));   //线圈数量
             sendCommand.Add((byte)(length % 256));
 
-            sendCommand.AddRange(Crc16(SendCommand.ToArray(),SendCommand.Count));   //拼接CRC验证
+            sendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));   //拼接CRC验证
 
 
-            byte[] receive = new byte[sendCommand.Count];
+            byte[] receive = null;
 
             try
             {
-               int byteLength = length%8==0?length/8:length/8 + 1; 
+                int byteLength = length % 8 == 0 ? length / 8 : length / 8 + 1;
 
                 if (SendAndReceive(SendCommand.ToArray(), ref receive)) {
 
                     if (receive.Length == byteLength) {
-                        if (receive[0] ==0) ;//未写完
-                    
-                    }
-                
-                }
-              
+                        if (receive[0] == slaved && receive[1] == 0x02) {
 
-                return receive;
+                            byte[] result = new byte[byteLength];
+                            Array.Copy(receive, 3, receive, 0, byteLength);  //将报文数据提取出来复制到result中
+
+                            return (result);
+                        }
+
+                    }
+
+                }
+
+
+                return null;
             }
             catch (Exception)
             {
@@ -172,12 +192,12 @@ namespace thinger.ModBusRTULib
                 throw;
             }
 
-        
-        
-  
-        
-        
-        
+
+
+
+
+
+
         }
 
 
@@ -185,9 +205,18 @@ namespace thinger.ModBusRTULib
 
         #endregion
 
-        #region 03读取输入和输出寄存器的方法
-        //04与03方法相同更改功能吗即可
-        public byte[] ReadOutRegisters(byte slaved, ushort startAddress, ushort length, List<byte> sendCommand) {
+
+
+
+        #region 读取输入和输出寄存器的方法
+        /// <summary>
+        /// 读取输出寄存器
+        /// </summary>
+        /// <param name="slaved">站地址</param>
+        /// <param name="startAddress">起始地址</param>
+        /// <param name="length">长度</param>
+        /// <returns></returns>
+        public byte[] ReadOutRegisters(byte slaved, ushort startAddress, ushort length) {
 
             List<byte> SendCommand = new List<byte>();
 
@@ -197,7 +226,7 @@ namespace thinger.ModBusRTULib
             SendCommand.Add((byte)(startAddress / 256));
             SendCommand.Add((byte)(startAddress % 256));
 
-            SendCommand.Add ((byte)(length / 256));
+            SendCommand.Add((byte)(length / 256));
             SendCommand.Add((byte)(length % 256));
 
 
@@ -211,26 +240,78 @@ namespace thinger.ModBusRTULib
 
                 if (receive.Length == 5 + byteLength) {
 
-                    if (receive[0] == 0x01 && receive[1] == 0x03 && receive[2] == byteLength)
+                    if (receive[0] == slaved && receive[1] == 0x03 && receive[2] == byteLength)
                     {
                         byte[] result = new byte[byteLength];
 
                         Array.Copy(receive, 3, result, 0, byteLength);
 
-                    return result;
-                    
+                        return result;
+
                     }
-            
+
                 }
             }
             return null;
-         
+
 
 
 
 
         }
+        /// <summary>
+        /// 读取输入寄存器
+        /// </summary>
+        /// <param name="slaved">站地址</param>
+        /// <param name="startAddress">起始地址param>
+        /// <param name="length">长度</param>
+        /// <returns></returns>
+        public byte[] ReadIntPutRegisters(byte slaved, ushort startAddress, ushort length)
+        {
 
+            List<byte> SendCommand = new List<byte>();
+
+            SendCommand.Add(slaved);
+            SendCommand.Add(0x04);
+
+            SendCommand.Add((byte)(startAddress / 256));
+            SendCommand.Add((byte)(startAddress % 256));
+
+            SendCommand.Add((byte)(length / 256));
+            SendCommand.Add((byte)(length % 256));
+
+
+            SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));
+
+            byte[] receive = null;
+
+            int byteLength = length * 2;
+
+            if (SendAndReceive(SendCommand.ToArray(), ref receive))
+            {
+
+                if (receive.Length == 5 + byteLength)
+                {
+
+                    if (receive[0] == slaved && receive[1] == 0x04 && receive[2] == byteLength)
+                    {
+                        byte[] result = new byte[byteLength];
+
+                        Array.Copy(receive, 3, result, 0, byteLength);
+
+                        return result;
+
+                    }
+
+                }
+            }
+            return null;
+
+
+
+
+
+        }
         /*
         public byte[] ReadOutRegisters(byte slaved, ushort startAddress, ushort length, List<byte> sendCommand)
         {
@@ -283,6 +364,13 @@ namespace thinger.ModBusRTULib
         #endregion
 
         #region  05H预置单线圈
+        /// <summary>
+        /// 预置单线圈
+        /// </summary>
+        /// <param name="slaved"></param>
+        /// <param name="startAddress"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool PreSetSingColl(byte slaved, ushort startAddress, bool value)
         {
             List<byte> SendCommand = new List<byte>();
@@ -293,35 +381,38 @@ namespace thinger.ModBusRTULib
             SendCommand.Add((byte)(startAddress / 256));
             SendCommand.Add((byte)(startAddress % 256));
 
-            SendCommand.Add(value?(byte)0XFF: (byte)0X00);
+            SendCommand.Add(value ? (byte)0XFF : (byte)0X00);
             SendCommand.Add(0X00);
             SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));
             byte[] receive = null;
-        
+
 
             if (SendAndReceive(SendCommand.ToArray(), ref receive))
             {
 
-                if (receive.Length == 8)
+                if (CheckCrc(receive)&&receive.Length == 8)
                 {
+                    return ByteArrayEquals(SendCommand.ToArray(), receive);
 
-                    
 
                 }
             }
             return false;
 
         }
+
+
+
         #endregion
         #region  06H预置单寄存器
         /// <summary>
-        /// 
+        /// 预置单寄存器
         /// </summary>
         /// <param name="slaved">站地址</param>
         /// <param name="stardAddress">寄存器地址</param>
-        /// <param name="value">字节数组（2个字节）</param>
+        /// <param name="value">字节数组（2个字节） 若不为两个字节则会报错</param>
         /// <returns>返回结果</returns>
-        public bool PreSetSingRegister(byte slaved,ushort stardAddress,byte[] value) {
+        public bool PreSetSingRegister(byte slaved, ushort stardAddress, byte[] value) {
             List<byte> SendCommand = new List<byte>();
 
             SendCommand.Add(slaved);
@@ -342,8 +433,8 @@ namespace thinger.ModBusRTULib
                 if (receive.Length == 8)
                 {
 
-                    return ByteArrayEquals(receive, value);
-
+                    return ByteArrayEquals(SendCommand.ToArray(), receive);
+                    
                 }
             }
             return false;
@@ -361,6 +452,11 @@ namespace thinger.ModBusRTULib
 
         #endregion
 
+
+
+
+
+
         #region 预置多线圈
         //
         public bool PreSetMultiColls(byte slaved, ushort start, bool[] value) {
@@ -373,9 +469,9 @@ namespace thinger.ModBusRTULib
             SendCommand.Add(slaved);
             SendCommand.Add(0x0F);
 
-            SendCommand.Add((byte)(start/256));
+            SendCommand.Add((byte)(start / 256));
 
-            SendCommand.Add((byte)(start %256));
+            SendCommand.Add((byte)(start % 256));
 
             SendCommand.Add((byte)(value.Length / 256));
             SendCommand.Add((byte)(value.Length % 256));
@@ -418,7 +514,7 @@ namespace thinger.ModBusRTULib
             SendCommand.Add(slaveId); //站地址
             SendCommand.Add(0X10);//功能码
 
-            SendCommand.Add(((byte)(start/256)));//起始寄存器地址（高位）
+            SendCommand.Add(((byte)(start / 256)));//起始寄存器地址（高位）
             SendCommand.Add(((byte)(start % 256)));//起始寄存器地址（低位）
 
             SendCommand.Add(((byte)(RegisterLength / 256)));//（寄存器数量高位）
@@ -445,7 +541,7 @@ namespace thinger.ModBusRTULib
                 }
 
 
-                
+
             }
 
             return false;
@@ -495,17 +591,17 @@ namespace thinger.ModBusRTULib
             }
             return result;
         }
-        private byte SetBitValue(byte src,int bit,bool value) {
+        private byte SetBitValue(byte src, int bit, bool value) {
 
-            return value ? (byte)(src | (byte)Math.Pow(2, bit) ): (byte)(src & ~(byte)Math.Pow(2, bit));
+            return value ? (byte)(src | (byte)Math.Pow(2, bit)) : (byte)(src & ~(byte)Math.Pow(2, bit));
 
-        
-        }         
-                
-               
-              
-               
-                #endregion
+
+        }
+
+
+
+
+        #endregion
 
 
         #region sendAndReceiveway
@@ -566,6 +662,12 @@ namespace thinger.ModBusRTULib
 
 
         #region 数组比较方法
+        /// <summary>
+        /// 对比两个书节数组是否相等
+        /// </summary>
+        /// <param name="byte1">输入第一个数组</param>
+        /// <param name="byte2">输入第二个数组</param>
+        /// <returns></returns>
         private bool ByteArrayEquals(byte[] byte1, byte[] byte2) {
 
             if (byte1 == null || byte2 == null) return false;
@@ -574,11 +676,11 @@ namespace thinger.ModBusRTULib
 
             for (int i = 0; i < byte1.Length; i++) {
 
-                if (byte1[i] != byte2[i])return false;
-            
+                if (byte1[i] != byte2[i]) return false;
+
             }
-        
-           return true;
+
+            return true;
         }
         #endregion
 
@@ -1298,10 +1400,74 @@ namespace thinger.ModBusRTULib
 
             return new byte[] { crcLo, crcHi };
         }
- 
- 
+
+
         #endregion
+        #region 
+        /// <summary>
+        /// 验证 Modbus RTU 消息的 CRC 校验码
+        /// </summary>
+        /// <param name="data">包含完整消息的字节数组（包括CRC校验码）</param>
+        /// <returns>如果CRC校验通过返回true，否则返回false</returns>
+        public bool CheckCrc(byte[] data)
+        {
+            // 检查数据长度是否足够包含CRC
+            if (data == null || data.Length < 3) // 至少需要3字节：地址+功能码+CRC
+            {
+                return false;
+            }
+
+            // 提取消息内容（不包括CRC部分）
+            byte[] message = new byte[data.Length - 2];
+            Array.Copy(data, 0, message, 0, message.Length);
+
+            // 计算消息的CRC
+            byte[] calculatedCrc = CalculateCrc(message);
+
+            // 获取接收到的CRC（最后2字节）
+            byte receivedCrcLow = data[data.Length - 2];
+            byte receivedCrcHigh = data[data.Length - 1];
+
+            // 比较计算出的CRC和接收到的CRC
+            return (calculatedCrc[0] == receivedCrcLow) &&
+                   (calculatedCrc[1] == receivedCrcHigh);
 
 
+        }
+
+
+        /// <summary>
+        /// 计算 Modbus RTU 消息的 CRC 校验码
+        /// </summary>
+        /// <param name="data">需要计算CRC的消息内容</param>
+        /// <returns>包含CRC低字节和高字节的数组</returns>
+        public byte[] CalculateCrc(byte[] data)
+        {
+            ushort crc = 0xFFFF;
+
+            foreach (byte b in data)
+            {
+                crc ^= b;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    bool lsbSet = (crc & 0x0001) == 0x0001;
+                    crc >>= 1;
+
+                    if (lsbSet)
+                    {
+                        crc ^= 0xA001; // CRC多项式 (x^16 + x^15 + x^2 + 1)
+                    }
+                }
+            }
+
+            // 返回CRC（低字节在前，高字节在后）
+            return new byte[]
+            {
+        (byte)(crc & 0xFF),       // 低字节
+        (byte)((crc >> 8) & 0xFF) // 高字节
+            };
+        }
+        #endregion
     }
 }
