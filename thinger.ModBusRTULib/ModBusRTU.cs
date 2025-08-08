@@ -46,7 +46,7 @@ namespace thinger.ModBusRTULib
         }
 
         #endregion 字段属性与方法
-
+        #region 连接与断开连接
         /// <summary>
         /// 连接串口
         /// </summary>
@@ -80,7 +80,7 @@ namespace thinger.ModBusRTULib
             }
 
         }
-
+        #endregion
         #region 01读取输出线圈的方法
         /// <summary>
         /// 读取输出线圈的方法
