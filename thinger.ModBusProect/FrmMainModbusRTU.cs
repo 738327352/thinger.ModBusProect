@@ -220,7 +220,7 @@ namespace thinger.ModBusProect
 
 
             byte[] result = null;
-            switch (StoreArea)
+            switch (storeArea)
             {
                 case StoreArea.输出线圈0x:
                     result = modBusRTU.ReadOutPutColls(devId, start, length);

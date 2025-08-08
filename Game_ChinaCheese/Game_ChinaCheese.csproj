@@ -52,16 +52,18 @@
     <Compile Include="FrmChineseChess.Designer.cs">
       <DependentUpon>FrmChineseChess.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -75,6 +77,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\box.png" />
+    <Content Include="Resources\enemy1.png" />
+    <Content Include="Resources\enemy2.png" />
+    <Content Include="Resources\enemy3.png" />
+    <Content Include="Resources\enemy4.png" />
+    <Content Include="Resources\enemy5.png" />
+    <Content Include="Resources\enemy6.png" />
+    <Content Include="Resources\enemy7.png" />
+    <Content Include="Resources\friend1.png" />
+    <Content Include="Resources\friend2.png" />
+    <Content Include="Resources\friend3.png" />
+    <Content Include="Resources\friend4.png" />
+    <Content Include="Resources\friend5.png" />
+    <Content Include="Resources\friend6.png" />
+    <Content Include="Resources\friend7.png" />
+    <Content Include="Resources\Panel.png" />
+    <Content Include="Resources\red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
