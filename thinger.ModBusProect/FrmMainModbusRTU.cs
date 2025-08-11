@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using thinger.DataConvertLib;
 using thinger.ModBusRTULib;
 
@@ -145,25 +146,27 @@ namespace thinger.ModBusProect
 
 
         }
-        
+
+        #region 读取通用方法
         //读取端口信号
         private void btn_Read_Click(object sender, EventArgs e)
         {
             if (CommonVerity()) {
 
-                byte slaveId = byte.Parse(this.cmb_Slave.Text.Trim());
-                ushort start = ushort.Parse(this.cmb_Slave.Text.Trim());
-                ushort length = ushort.Parse(this.cmb_Slave.Text.Trim());
+                byte devId = byte.Parse(this.cmb_Slave.Text.Trim());
+                ushort start = ushort.Parse(this.cmb_Start.Text.Trim());
+                ushort length = ushort.Parse(this.cmb_Length.Text.Trim());
 
                 DataType dataType = (DataType)Enum.Parse(typeof(DataType), this.cmb_DataType.Text,true);
                 StoreArea storeArea = (StoreArea)Enum.Parse(typeof(StoreArea), this.cmb_StoreArea.Text, true);
-                DataFormat dataFormat = (DataFormat)Enum.Parse(typeof(DataFormat),this.cmb_DataForMat.Text,true);
+                dataFormat = (DataFormat)Enum.Parse(typeof(DataFormat),this.cmb_DataForMat.Text,true);
 
 
 
                 switch (dataType)
                 {
                     case DataType.Bool:
+                        ReadBool(storeArea, devId, start, length);
                         break;
                     case DataType.Byte:
                         break;
@@ -189,6 +192,45 @@ namespace thinger.ModBusProect
 
             }   
         }
+    
+
+        private void ReadBool(StoreArea storeArea, byte devId, ushort start, ushort length) {
+
+            byte[] result = null;
+
+            switch (storeArea)
+            {
+                case StoreArea.输出线圈0x:
+                    result = modBusRTU.ReadOutPutColls(devId, start, length);
+                    break;
+                case StoreArea.输入线圈1x:
+                    result = modBusRTU.ReadIntPut(devId, start, length);
+                    break;
+                case StoreArea.输出寄存器3x:
+                    result = modBusRTU.ReadOutRegisters(devId, start, length);
+                    break;
+                case StoreArea.输入寄存器4x:
+                    result = modBusRTU.ReadIntPutRegisters(devId, start, length);
+                    break;
+                default:
+                    break;                  
+
+
+            }
+            if (result == null)
+            {
+
+                AddLog(2, "读取失败，检查参数是否正常");
+            }
+            else {
+                AddLog(3, "读取成功:"+StringLib.GetStringFromValueArray( BitLib.GetBitArrayFromByteArray(result,0,length)));
+            }
+
+
+        }
+
+        #endregion 读取通用方法
+
 
         //通用方法验证格式是否正确
         private bool CommonVerity() {
@@ -216,24 +258,6 @@ namespace thinger.ModBusProect
             }
           return true;
         }
-        private void ReadBool(StoreArea storeArea ,byte devId,ushort start ,ushort length) {
-
-
-            byte[] result = null;
-            switch (storeArea)
-            {
-                case StoreArea.输出线圈0x:
-                    result = modBusRTU.ReadOutPutColls(devId, start, length);
-                    break;
-                case StoreArea.输入线圈1x:
-                    break;
-                case StoreArea.输出寄存器3x:
-                    break;
-                case StoreArea.输入寄存器4x:
-                    break;
-                default:
-                    break;
-            }
-        }
+        
     }
 }

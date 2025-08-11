@@ -23,11 +23,11 @@ namespace thinger.ModBusRTULib
         public int ReadTimeOut { get; set; } = 1000;        //写入超时时间
         public int WriteTimeOut { get; set; } = 1000;
 
-        public int sleepTime { get; set; } = 10;
+        public int sleepTime { get; set; } = 50;
 
         private bool dtrEnable = false;
         private bool rtsEnable = false;
-        private int ReceiveTimeOut { get; set; } = 5000;
+        private int ReceiveTimeOut { get; set; } = 500;
         public bool RtsEnable {
             get { return rtsEnable; }
             set {
@@ -108,12 +108,7 @@ namespace thinger.ModBusRTULib
 
             SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));
 
-
-
-
-            //接收报文
-
-            //发送报文
+            
             byte[] receive = null;
 
             int byteLength = length % 8 == 0 ? length / 8 : length / 8 + 1;
@@ -146,20 +141,20 @@ namespace thinger.ModBusRTULib
         /// <param name="length">场地</param>
         /// <param name="sendCommand"></param>
         /// <returns></returns>
-        public byte[] ReadIntPut(byte slaved, ushort startAddress, ushort length, List<byte> sendCommand) {
+        public byte[] ReadIntPut(byte slaved, ushort startAddress, ushort length) {
 
             List<byte> SendCommand = new List<byte>();
 
-            sendCommand.Add(slaved);  //从站地址
-            sendCommand.Add(0x02);    //功能码
+            SendCommand.Add(slaved);  //从站地址
+            SendCommand.Add(0x02);    //功能码
 
-            sendCommand.Add((byte)(startAddress / 256));//起始地
-            sendCommand.Add((byte)(startAddress % 256));
+            SendCommand.Add((byte)(startAddress / 256));//起始地
+            SendCommand.Add((byte)(startAddress % 256));
 
-            sendCommand.Add((byte)(length / 256));   //线圈数量
-            sendCommand.Add((byte)(length % 256));
+            SendCommand.Add((byte)(length / 256));   //线圈数量
+            SendCommand.Add((byte)(length % 256));
 
-            sendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));   //拼接CRC验证
+            SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));   //拼接CRC验证
 
 
             byte[] receive = null;
@@ -390,7 +385,7 @@ namespace thinger.ModBusRTULib
             if (SendAndReceive(SendCommand.ToArray(), ref receive))
             {
 
-                if (CheckCrc(receive)&&receive.Length == 8)
+                if (CheckCrc(receive) && receive.Length == 8)
                 {
                     return ByteArrayEquals(SendCommand.ToArray(), receive);
 
@@ -404,6 +399,7 @@ namespace thinger.ModBusRTULib
 
 
         #endregion
+
         #region  06H预置单寄存器
         /// <summary>
         /// 预置单寄存器
@@ -426,7 +422,6 @@ namespace thinger.ModBusRTULib
             SendCommand.AddRange(Crc16(SendCommand.ToArray(), SendCommand.Count));
             byte[] receive = null;
 
-
             if (SendAndReceive(SendCommand.ToArray(), ref receive))
             {
 
@@ -434,31 +429,31 @@ namespace thinger.ModBusRTULib
                 {
 
                     return ByteArrayEquals(SendCommand.ToArray(), receive);
-                    
+
                 }
             }
             return false;
 
-
         }
 
         public bool PreSetSingRegister(byte slaved, ushort stardAddress, short value) {
-            return PreSetSingRegister(slaved, stardAddress, BitConverter.GetBytes(value));
+            return PreSetSingRegister(slaved, stardAddress, BitConverter.GetBytes(value).Reverse().ToArray());
         }
         public bool PreSetSingRegister(byte slaved, ushort stardAddress, ushort value)
         {
-            return PreSetSingRegister(slaved, stardAddress, BitConverter.GetBytes(value));
+            return PreSetSingRegister(slaved, stardAddress, BitConverter.GetBytes(value).Reverse().ToArray());
         }
 
         #endregion
 
-
-
-
-
-
-        #region 预置多线圈
-        //
+   
+        /// <summary>
+        /// 预置多线圈
+        /// </summary>
+        /// <param name="slaved"></param>
+        /// <param name="start"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool PreSetMultiColls(byte slaved, ushort start, bool[] value) {
 
 
@@ -501,7 +496,13 @@ namespace thinger.ModBusRTULib
         }
 
 
-        //10Hyu预置多线圈
+        /// <summary>
+        /// 预置多寄存器
+        /// </summary>
+        /// <param name="slaveId"></param>
+        /// <param name="start"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
 
         public bool PreSetMultiRegisters(byte slaveId, ushort start, byte[] value) {
 
@@ -548,23 +549,17 @@ namespace thinger.ModBusRTULib
 
         }
 
-        #endregion
-
-
-
-
-
-
-
-
-
 
 
 
 
 
         #region 布尔数组转换为字节数组
-
+        /// <summary>
+        /// 拿到数组的字节
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private byte[] GetByteArrayFromBoolArray(bool[] value)
         {
 
@@ -591,6 +586,13 @@ namespace thinger.ModBusRTULib
             }
             return result;
         }
+        /// <summary>
+        /// 将字节的位做调整
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="bit"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private byte SetBitValue(byte src, int bit, bool value) {
 
             return value ? (byte)(src | (byte)Math.Pow(2, bit)) : (byte)(src & ~(byte)Math.Pow(2, bit));
@@ -644,10 +646,11 @@ namespace thinger.ModBusRTULib
                         else if (DateTime.Now.Millisecond > ReceiveTimeOut)
                             return false;
                     }
+                    
                 }
-
                 receive = stream.ToArray();
                 return true;
+
             }
             catch (Exception)
             {
