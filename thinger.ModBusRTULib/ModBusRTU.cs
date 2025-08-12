@@ -45,6 +45,11 @@ namespace thinger.ModBusRTULib
             }
         }
 
+
+
+        
+
+
         #endregion 字段属性与方法
         #region 连接与断开连接
         /// <summary>
@@ -392,7 +397,7 @@ namespace thinger.ModBusRTULib
 
                 }
             }
-            return false;
+             return false;
 
         }
 
@@ -481,15 +486,19 @@ namespace thinger.ModBusRTULib
 
             if (SendAndReceive(SendCommand.ToArray(), ref receive))
             {
+                for (int i = 0; i < 6; i++) {
 
-                if (receive.Length == 8)
-                {
-                    return ByteArrayEquals(SendCommand.ToArray(), receive);
-
-
+                    if (SendCommand[i] == receive[i]) {
+                        return false;
+                    }
                 }
+
+                return true;
+               
             }
             return false;
+
+
 
 
 
@@ -564,7 +573,7 @@ namespace thinger.ModBusRTULib
         {
 
 
-            int byteLength = value.Length % 8 == 0 ? value.Length / 8 : value.Length & 8 + 1;
+            int byteLength = value.Length % 8 == 0 ? value.Length / 8 : value.Length / 8 + 1;
 
             byte[] result = new byte[byteLength];
 
@@ -576,10 +585,9 @@ namespace thinger.ModBusRTULib
                 for (int j = 0; j < total; j++)
                 {
                     // 如果值为 true，设置对应的位（低位在前）
-                    if (value[startIndex + j])
-                    {
-                        result[i] |= (byte)(1 << j);
-                    }
+                  
+                        result[i] = SetBitValue(result[i], j, value[8*i+j] ); 
+                    
 
                 }
 
@@ -1472,5 +1480,36 @@ namespace thinger.ModBusRTULib
             };
         }
         #endregion
+
+
+        #region 锁
+
+
+        private Int32 m_waiters = 0;
+        private AutoResetEvent m_waiterLock = new AutoResetEvent(false);
+
+
+        public void Enter() {
+
+            if (Interlocked.Increment(ref m_waiters) == 1) return;
+            m_waiterLock.WaitOne();
+        }
+
+
+        public void Leave() {
+
+
+            if (Interlocked.Decrement(ref m_waiters) == 0) return;
+            m_waiterLock.Set();
+        
+        }
+
+
+        #endregion
+
+
+
+
+
     }
 }
