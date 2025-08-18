@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 namespace Game_ChinaCheese
 {
     public partial class FrmChineseChess : Form
@@ -65,6 +65,7 @@ namespace Game_ChinaCheese
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            Trace.WriteLine("OnPaint called");
             base.OnPaint(e);
             DrawBoard(e.Graphics);
             DrawPieces(e.Graphics);
@@ -77,9 +78,14 @@ namespace Game_ChinaCheese
                 g.DrawLine(pen, CellSize / 2, CellSize / 2 + i * CellSize, CellSize / 2 + (BoardSize - 1) * CellSize, CellSize / 2 + i * CellSize);
             for (int i = 0; i < BoardSize; i++)
                 g.DrawLine(pen, CellSize / 2 + i * CellSize, CellSize / 2, CellSize / 2 + i * CellSize, CellSize / 2 + (BoardRows - 1) * CellSize);
+            
+            Rectangle rect = new Rectangle(CellSize/2 , 4 * CellSize + CellSize /2, CellSize * 8 ,CellSize);
+            Pen myPen = new Pen(Color.Red, 2);
+            g.DrawEllipse(myPen, rect);
+            g.FillEllipse(Brushes.LightGray, rect);
             // 画楚河汉界
-            g.DrawString("楚河", new Font("宋体", 18), Brushes.Blue, CellSize, CellSize * 4 + 10);
-            g.DrawString("汉界", new Font("宋体", 18), Brushes.Red, CellSize * 5, CellSize * 4 + 10);
+            g.DrawString("楚河", new Font("宋体", 18), Brushes.Blue, CellSize , CellSize * 4 + 10 + 20 + 20);
+            g.DrawString("汉界", new Font("宋体", 18), Brushes.Red, CellSize * 7, CellSize * 4 + 10 + 20+ 20 );
         }
 
         private void DrawPieces(Graphics g)
@@ -110,8 +116,9 @@ namespace Game_ChinaCheese
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            int c = (e.X - CellSize / 2 + CellSize / 2) / CellSize;
-            int r = (e.Y - CellSize / 2 + CellSize / 2) / CellSize;
+            Trace.WriteLine($"Mouse Down at ({e.X}, {e.Y})");
+            int c = (e.X - CellSize / 2 + CellSize / 2) / CellSize; // 计算列
+            int r = (e.Y - CellSize / 2 + CellSize / 2) / CellSize; // 计算行
             if (c < 0 || c >= BoardSize || r < 0 || r >= BoardRows) return;
 
             if (selected == null)
@@ -126,14 +133,23 @@ namespace Game_ChinaCheese
             }
             else
             {
-                // 移动棋子（这里只做简单移动，不做规则校验）
-                var from = selected.Value;
-                var movingPiece = board[from.Y, from.X];
+                // 移动棋子（这里只做简单移动，不做规则校验） 规则校验可以根据具体规则添加
+                var from = selected.Value; // 选中的棋子位置
+                var movingPiece = board[from.Y, from.X]; // 获取选中的棋子
                 if (movingPiece != null && (board[r, c] == null || board[r, c].IsRed != movingPiece.IsRed))
                 {
-                    board[r, c] = movingPiece;
-                    board[from.Y, from.X] = null;
-                    isRedTurn = !isRedTurn;
+                    // 棋子移动
+                    if (board[r, c] != null)
+                    {
+                        // 吃掉对方棋子
+                        Trace.WriteLine($"吃掉棋子: {board[r, c].Name}");
+                    }
+
+
+
+                    board[r, c] = movingPiece; // 将选中的棋子移动到新位置
+                    board[from.Y, from.X] = null; // 清除原位置的棋子
+                    isRedTurn = !isRedTurn; // 切换回合
                 }
                 selected = null;
                 Invalidate();
