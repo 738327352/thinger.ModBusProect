@@ -49,7 +49,7 @@
             this.cmb_Length = new System.Windows.Forms.TextBox();
             this.btn_Written = new System.Windows.Forms.Button();
             this.btn_Read = new System.Windows.Forms.Button();
-            this.comboBox10 = new System.Windows.Forms.ComboBox();
+            this.cmb_WriteData = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cmb_DataType = new System.Windows.Forms.ComboBox();
@@ -61,10 +61,10 @@
             this.cmb_Slave = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.lst_info = new System.Windows.Forms.ListView();
-            this.label13 = new System.Windows.Forms.Label();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.DateTimeView = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Message = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.label13 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -228,7 +228,7 @@
             this.groupBox2.Controls.Add(this.cmb_Length);
             this.groupBox2.Controls.Add(this.btn_Written);
             this.groupBox2.Controls.Add(this.btn_Read);
-            this.groupBox2.Controls.Add(this.comboBox10);
+            this.groupBox2.Controls.Add(this.cmb_WriteData);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.cmb_DataType);
@@ -263,6 +263,7 @@
             this.btn_Written.TabIndex = 15;
             this.btn_Written.Text = "写入";
             this.btn_Written.UseVisualStyleBackColor = true;
+            this.btn_Written.Click += new System.EventHandler(this.btn_Written_Click);
             // 
             // btn_Read
             // 
@@ -274,15 +275,15 @@
             this.btn_Read.UseVisualStyleBackColor = true;
             this.btn_Read.Click += new System.EventHandler(this.btn_Read_Click);
             // 
-            // comboBox10
+            // cmb_WriteData
             // 
-            this.comboBox10.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.comboBox10.FormattingEnabled = true;
-            this.comboBox10.Location = new System.Drawing.Point(93, 119);
-            this.comboBox10.Name = "comboBox10";
-            this.comboBox10.Size = new System.Drawing.Size(444, 24);
-            this.comboBox10.TabIndex = 12;
-            this.comboBox10.Text = "1 1 1 1 1";
+            this.cmb_WriteData.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cmb_WriteData.FormattingEnabled = true;
+            this.cmb_WriteData.Location = new System.Drawing.Point(93, 119);
+            this.cmb_WriteData.Name = "cmb_WriteData";
+            this.cmb_WriteData.Size = new System.Drawing.Size(444, 24);
+            this.cmb_WriteData.TabIndex = 12;
+            this.cmb_WriteData.Text = "1 1 1 1 1";
             // 
             // label10
             // 
@@ -393,14 +394,13 @@
             this.lst_info.UseCompatibleStateImageBehavior = false;
             this.lst_info.View = System.Windows.Forms.View.Details;
             // 
-            // label13
+            // DateTimeView
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(28, 382);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 12);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "读取信息";
+            this.DateTimeView.Text = "日期时间";
+            // 
+            // Message
+            // 
+            this.Message.Text = "信息内容";
             // 
             // imageList1
             // 
@@ -410,13 +410,14 @@
             this.imageList1.Images.SetKeyName(1, "warning2.png");
             this.imageList1.Images.SetKeyName(2, "warning3.png");
             // 
-            // DateTimeView
+            // label13
             // 
-            this.DateTimeView.Text = "日期时间";
-            // 
-            // Message
-            // 
-            this.Message.Text = "信息内容";
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(28, 382);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "读取信息";
             // 
             // FrmMainModbusRTU
             // 
@@ -467,7 +468,7 @@
         private System.Windows.Forms.Button btn_Connect;
         private System.Windows.Forms.Button btn_Written;
         private System.Windows.Forms.Button btn_Read;
-        private System.Windows.Forms.ComboBox comboBox10;
+        private System.Windows.Forms.ComboBox cmb_WriteData;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ListView lst_info;
         private System.Windows.Forms.Label label13;
