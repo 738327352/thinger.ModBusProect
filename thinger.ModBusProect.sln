@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_ChinaCheese", "Game_Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.TeachDemo", "thinger.TeachDemo\thinger.TeachDemo.csproj", "{A467EDA2-0CBF-45D0-BA2E-A39FEB62D912}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thingerTask", "thingerTask\thingerTask.csproj", "{92BBFA03-F492-441F-ACCC-C170EF8FD047}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{A467EDA2-0CBF-45D0-BA2E-A39FEB62D912}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A467EDA2-0CBF-45D0-BA2E-A39FEB62D912}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A467EDA2-0CBF-45D0-BA2E-A39FEB62D912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
