@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.TeachDemo", "thinge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thingerTask", "thingerTask\thingerTask.csproj", "{92BBFA03-F492-441F-ACCC-C170EF8FD047}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.ProConfigSys", "thinger.ProConfigSys\thinger.ProConfigSys.csproj", "{55C6904C-94F6-4F52-BB52-E6723B1C981F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92BBFA03-F492-441F-ACCC-C170EF8FD047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55C6904C-94F6-4F52-BB52-E6723B1C981F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55C6904C-94F6-4F52-BB52-E6723B1C981F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55C6904C-94F6-4F52-BB52-E6723B1C981F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55C6904C-94F6-4F52-BB52-E6723B1C981F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
