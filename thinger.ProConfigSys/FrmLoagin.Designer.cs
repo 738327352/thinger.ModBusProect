@@ -69,6 +69,7 @@
             this.checkBox1.TabIndex = 5;
             this.checkBox1.Text = "记住密码";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckStateChanged += new System.EventHandler(this.checkBox1_CheckStateChanged);
             // 
             // txt_LoadPwd
             // 
@@ -122,7 +123,7 @@
             this.btn_LoadSystem.UseVisualStyleBackColor = false;
             this.btn_LoadSystem.Click += new System.EventHandler(this.btn_LoadSystem_Click);
             // 
-            // FrmMain
+            // FrmLoagin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -130,7 +131,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
-            this.Name = "FrmMain";
+            this.Name = "FrmLoagin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.splitContainer1.Panel2.ResumeLayout(false);

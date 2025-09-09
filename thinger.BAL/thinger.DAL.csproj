@@ -42,9 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\SQLHelper.cs" />
+    <Compile Include="SysAdmins.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\thinger.Models\thinger.Models.csproj">

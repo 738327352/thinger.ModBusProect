@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace thinger.Models
 {
-     class SysAdmins
+    [Serializable]
+    public class SysAdmins
     {
         public int SysAdminnsId { get; set; }
 
