@@ -16,7 +16,7 @@ namespace Rockweed
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TinyGame());
+            Application.Run(new PasswordManager());
         }
     }
 }

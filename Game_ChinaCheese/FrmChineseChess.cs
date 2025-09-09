@@ -138,13 +138,16 @@ namespace Game_ChinaCheese
                 var movingPiece = board[from.Y, from.X]; // 获取选中的棋子
                 if (movingPiece != null && (board[r, c] == null || board[r, c].IsRed != movingPiece.IsRed))
                 {
+                    
+                    if(GameRule(movingPiece))
+                        return; // 如果不符合规则则返回
                     // 棋子移动
                     if (board[r, c] != null)
                     {
                         // 吃掉对方棋子
                         Trace.WriteLine($"吃掉棋子: {board[r, c].Name}");
                     }
-
+                    
 
 
                     board[r, c] = movingPiece; // 将选中的棋子移动到新位置
@@ -153,6 +156,106 @@ namespace Game_ChinaCheese
                 }
                 selected = null;
                 Invalidate();
+            }
+        }
+        private void Regret()
+        {
+
+        }
+        private bool GameRule(ChessPiece piece)
+        {
+            switch (piece.Name)
+            {
+                case "车":
+                    // 车的规则
+                    Trace.WriteLine("车的规则");
+                    
+                    return true;
+                case "马":
+                    // 马的规则
+                    Trace.WriteLine("马的规则");
+                    return true;
+                case "相":
+                    // 相的规则
+                    Trace.WriteLine("相的规则");
+                    return true;
+                case "仕":
+                    // 仕的规则
+                    Trace.WriteLine("仕的规则");
+                    return true;
+                case "帅":
+                    // 帅的规则
+                    Trace.WriteLine("帅的规则");
+                    // 帅的规则在红方
+                    if (piece.IsRed)
+                    {
+                        // 红方帅
+                        if (piece.Name == "帅")
+                        {
+                            // 红方帅的规则
+                            Trace.WriteLine("红方帅的规则");
+                            if(selected.HasValue && selected.Value.Y < 5)
+                            {
+                                // 红方帅只能在自己的九宫格内移动
+                                Trace.WriteLine("红方帅只能在自己的九宫格内移动");
+                                return false; // 红方帅只能在自己的九宫格内移动
+                            }
+                            return true; // 红方帅的规则
+
+                        }
+                        else
+                        {
+                            // 黑方帅
+                            Trace.WriteLine("黑方帅的规则");
+                            return true; // 黑方帅的规则
+                        }
+                    }
+                    else
+                    {
+                        // 黑方帅
+                        return true; // 黑方帅的规则
+                    }
+                case "炮":
+                    // 炮的规则
+                    Trace.WriteLine("炮的规则");
+                    return true;
+                case "兵":
+                    // 兵的规则
+                    Trace.WriteLine("兵的规则");
+                    return true;
+                case "将":
+                    // 将的规则
+                    Trace.WriteLine("将的规则");
+                    // 将的规则与帅类似，但在黑方
+                    if (piece.IsRed)
+                    {
+                        // 红方将
+                        return true; // 红方将的规则
+
+                    }
+                    else
+                    {
+                        // 黑方将
+                        return true; // 黑方将的规则
+                    }
+                case "卒":
+                    // 卒的规则
+                    Trace.WriteLine("卒的规则");
+                    // 卒的规则与兵类似，但在河界后有不同的移动方式
+                    if (piece.IsRed)
+                    {
+                        // 红方卒
+                        return true; // 红方卒的规则
+
+
+                    }
+                    else
+                    {
+                        // 黑方卒
+                        return true; // 黑方卒的规则
+                    }
+                default:
+                    throw new NotImplementedException($"未实现棋子: {piece.Name}");
             }
         }
     }
@@ -166,5 +269,8 @@ namespace Game_ChinaCheese
             Name = name;
             IsRed = isRed;
         }
+    
     }
+
+    
 }

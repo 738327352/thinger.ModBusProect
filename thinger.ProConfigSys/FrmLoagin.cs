@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,25 @@ namespace thinger.ProConfigSys
         public FrmLoagin()
         {
             InitializeComponent();
+
+            SysAdmins adminsObj = sysAdminsManager.ReadAdmin();
+
+            if (File.Exists("sysAdmins.obj"))
+            {
+
+                this.txt_LoadAccount.Text = adminsObj.SysAccount;
+                this.txt_LoadPwd.Text = adminsObj.AdminPwd;
+                this.checkBox1.Checked = true;
+
+
+
+            }
+            else {
+                this.txt_LoadAccount.Text = null;
+                this.txt_LoadPwd.Text = null;
+                this.checkBox1.Checked = true;
+                this.txt_LoadAccount.Focus();
+            }
 
         }
         private SysAdminsManager sysAdminsManager = new SysAdminsManager();
@@ -33,7 +54,7 @@ namespace thinger.ProConfigSys
 
                 SysAccount = this.txt_LoadAccount.Text,
                 AdminPwd = this.txt_LoadPwd.Text,
-
+                
             };
 
             try
@@ -42,7 +63,7 @@ namespace thinger.ProConfigSys
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,"登录错误");
+                MessageBox.Show(ex.Message, "登录错误");
                 return;
             }
 
@@ -54,10 +75,25 @@ namespace thinger.ProConfigSys
                 //此处可以记录登录信息
                 //账号当前信息
                 //
-            
-            this.DialogResult = DialogResult.OK;
+
+                this.DialogResult = DialogResult.OK;
+
+                if (this.checkBox1.Checked)
+                {
+
+
+                    sysAdminsManager.SaveAdmin(sysAdmins);
+
+
+                }
+                else
+                {
+                    sysAdminsManager.Deleate();
+                }
+
             }
-            else {
+            else
+            {
                 MessageBox.Show("账号密码错误", "错误提示");
             }
 
@@ -72,15 +108,14 @@ namespace thinger.ProConfigSys
 
         private void checkBox1_CheckStateChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked) {
-                if (Program.currentSysAdmins != null)
-                {
 
-                Program.lastSysAdmins = Program.currentSysAdmins;
+            SysAdmins admins = new SysAdmins()
+            {
+                AdminPwd = this.txt_LoadPwd.Text,
+                SysAccount = this.txt_LoadAccount.Text,
 
-                }
-
-
+            };
+           
         }
     }
 }
