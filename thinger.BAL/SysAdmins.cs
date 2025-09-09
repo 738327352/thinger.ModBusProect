@@ -59,12 +59,40 @@ namespace thinger.Dal
         /// 将用户保存在文件夹中
         /// </summary>
         /// <param name="admin"></param>
-        public void saveAdmin(SysAdmins admin) {
+        public void SaveAdmin(SysAdmins admin) {
 
             FileStream fileStream = new FileStream("sysAdmins.obj",FileMode.Create);
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(fileStream, admin);
             fileStream.Close();
+        
+        
+        }
+
+        /// <summary>
+        /// 读取密码
+        /// </summary>
+        /// <returns></returns>
+        public SysAdmins ReadPwd() {
+
+            if (!File.Exists("sysAdmins.obj")) return null;
+
+            FileStream fileStream = new FileStream("sysAdmins.obj", FileMode.Open);
+            BinaryFormatter bf = new BinaryFormatter();
+           SysAdmins admin = (SysAdmins)bf.Deserialize(fileStream);
+            fileStream.Close();
+            return admin;
+           
+        }
+        /// <summary>
+        /// 清除密码
+        /// </summary>
+        public void DeleatePwd() {
+            if (File.Exists("sysAdmins.obj")) {
+                File.Delete("sysAdmins.obj");
+            
+            }
+
         
         
         }
