@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace thinger.Models
 {
-     class Projects
+   public   class Projects
     {
         public int ProjectId { get; set; }
 
