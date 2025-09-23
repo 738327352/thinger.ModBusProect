@@ -59,16 +59,14 @@ namespace thinger.Dal
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public static object ExecuteScalar(string cmdText, SqlParameter[] paramArray = null)
-        {
+        {        
 
             SqlConnection conn = new SqlConnection(connString);
             SqlCommand cmd = new SqlCommand(cmdText, conn);
             //添加其他sql语句
             if (paramArray != null)
-            {
-                cmd.Parameters.AddRange(paramArray);
-
-            }
+            {                cmd.Parameters.AddRange(paramArray);
+                            }
             try
             {
                 conn.Open();
@@ -76,8 +74,7 @@ namespace thinger.Dal
 
             }
             catch (Exception ex)
-            {
-        
+            {       
 
                 throw new Exception("方法执行异常"+ex.Message);
             }
@@ -85,10 +82,6 @@ namespace thinger.Dal
             {
                 conn.Close();
             }
-
-
-
-
         }
 
 
