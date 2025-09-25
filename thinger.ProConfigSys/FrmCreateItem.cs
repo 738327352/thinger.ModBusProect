@@ -14,10 +14,25 @@ namespace thinger.ProConfigSys
 {
     public partial class FrmCreateItem : Form
     {
+       private  ProjectManager projectManager = new ProjectManager();
         public FrmCreateItem()
         {
             InitializeComponent();
+        
         }
+
+
+        public FrmCreateItem(Projects projects):this(){
+            this.btnSave.Text = "重命名";
+            this.Text = "重命名项目";
+
+        
+        
+        
+        
+        
+        }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -36,18 +51,33 @@ namespace thinger.ProConfigSys
                 projectName = this.txt_ProjectName.Text.Trim()
 
             };
-          
-            ProjectManager projectManager = new ProjectManager();
-
-
-
 
             if (projectManager.IsRepeatForInster(projects))
             {
                 MessageBox.Show("该对象已存在");
 
             }
-            else MessageBox.Show("该对象可以使用");
+            else {
+                try
+                {
+                    projects.ProjectId = projectManager.Insert(projects);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("添加失败，原因：" + ex.Message);
+                    return;
+                }
+                this.Tag= projects;
+                
+
+                MessageBox.Show("添加成功");
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+
+            }
+           
+
+
         }
 
 

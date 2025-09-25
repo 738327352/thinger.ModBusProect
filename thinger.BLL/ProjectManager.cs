@@ -12,15 +12,36 @@ namespace thinger.BLL
     {
         ProjectService projectService = new ProjectService();
 
-        public bool IsRepeatForInster(Projects projects) { 
-        
-        return projectService.IsRepeatForInster(projects);
+        public bool IsRepeatForInster(Projects projects)
+        {
+
+            return projectService.IsRepeatForInster(projects);
+
+
+        }
+
+        public int Insert(Projects projects)
+        {
+
+            return projectService.Insert(projects);
 
 
         }
 
 
+        public int Update(Projects projects)
+        {
+
+            return projectService.Update(projects);
 
 
+        }
+
+
+        public List<Projects> GetAllProjects()
+        {
+            return projectService.GetAllProjects();
+
+        }
     }
 }

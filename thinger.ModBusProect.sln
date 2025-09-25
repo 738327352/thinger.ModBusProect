@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.Models", "thinger.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thinger.Common", "thinger.Common\thinger.Common.csproj", "{AF970BEE-8C45-41CB-A20B-80DBF928B27C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NauxOperationExcel", "NauxOperationExcel\NauxOperationExcel.csproj", "{C3A51E20-41DE-4BA9-BE8C-C618DB52910A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{AF970BEE-8C45-41CB-A20B-80DBF928B27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF970BEE-8C45-41CB-A20B-80DBF928B27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF970BEE-8C45-41CB-A20B-80DBF928B27C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A51E20-41DE-4BA9-BE8C-C618DB52910A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A51E20-41DE-4BA9-BE8C-C618DB52910A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A51E20-41DE-4BA9-BE8C-C618DB52910A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A51E20-41DE-4BA9-BE8C-C618DB52910A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

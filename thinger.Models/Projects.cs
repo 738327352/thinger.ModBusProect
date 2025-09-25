@@ -11,6 +11,7 @@ namespace thinger.Models
         public int ProjectId { get; set; }
 
         public String projectName { get; set; }
-     
+        
+        public int SN { get; set; }
     }
 }

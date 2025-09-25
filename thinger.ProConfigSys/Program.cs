@@ -24,6 +24,8 @@ namespace thinger.ProConfigSys
        
             DialogResult result = loagin.ShowDialog();
 
+            result =DialogResult.OK;
+
             if (result == DialogResult.OK)
             {
 
@@ -34,24 +36,6 @@ namespace thinger.ProConfigSys
             Application.Exit();
 
             }
-
-
-
-           
-            
-
-          
-            
-            
-            
-            
-
-
-
-
-
-
-
 
         }
 
